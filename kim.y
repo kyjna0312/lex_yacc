@@ -45,6 +45,13 @@ declaration:
 declaration_specifiers init_declarator_list_opt SEMICOLON {$$=setDeclaratorListSpecifier($2, $1);}
 ;
 
+declaration_specifiers:
+type_specifier {$$=makeSpecifier($1, 0);}
+|storage_class_specifire {$$=makeSpecifier(0, $1);}
+|type_specifiers declaration_specifiers {$$=updateSpecifier($2, $1, 0);}
+|storage_class_specifier declaration_specifiers {$$=updateSpecifier($2, 0, $1);}
+;
+
 storage_class_specifier:
 type_specifier {$$=makeSpecifier($1, 0);}
 |storage_class_specifier {$$=makeSpecifier(0, $1);}
@@ -90,7 +97,7 @@ struct_type_specifier {$$=$1;}
 ;
 
 struct_type_specifier:
-struct_or_union IDENTIFIER {$$=setTypeStructOrEnumIdentifier($1, $2, ID_STRUCT);} LR {$$=current_id; current_level++;} struct_declaration)list RR {checkForwardReference(); $$=setTypeField($3, $6); current_level--; current_id=$5;}
+struct_or_union IDENTIFIER {$$=setTypeStructOrEnumIdentifier($1, $2, ID_STRUCT);} LR {$$=current_id; current_level++;} struct_declaration_list RR {checkForwardReference(); $$=setTypeField($3, $6); current_level--; current_id=$5;}
 |struct_or_union {$$=maketype($1);} LR{$$=current_id;current_level++;} struct_declaration_list RR {checkForwardReference(); $$=setTypeField($2,$5); current_level--; current_id=$4;}
 |struct_or_union IDENTIFIER {$$=getTypeOfStructOrEnumRefIdentifier($1, $2, ID_STRUCT);}
 ;
