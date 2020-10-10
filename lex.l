@@ -69,7 +69,7 @@ while { return(WHILE_SYM); }
 
 {digit}+ { yylval=atoi(yytext); return(INTEGER_CONSTANT); }
 {digit}+\.{digit}+ { yylval=makeString(yytext); return(FLOAT_CONSTANT); }
-{letter}({lettet}|{digit})* { return(checkIdentifier(yytext)); }
+{letter}({letter}|{digit})* { return(checkIdentifier(yytext)); }
 \"([^"\n]|\\["\n])*\" { yylval=nakeString(yytext); return(STRING_LITERAL); }
 \'([^'\n]|\'\')\' { yylval=*(yytext+1); return(CHARACTER_CONSTANT); }
 "//"[^\n]* { }
