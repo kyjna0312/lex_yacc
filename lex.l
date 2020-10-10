@@ -6,7 +6,6 @@ ws {delim}+
 
 %{
 #include "y.tab.h"
-#include "type.h"
 
 extern int yylval;
 extern int line_no;
@@ -27,8 +26,8 @@ default { return(DEFAULT_SYM); }
 do { return(DO_SYM); }
 else { return(ELSE_SYM); }
 enum { return(ENUM_SYM); }
-for {return(FOR_SYM;) }
-if {return(IF_SYM); }
+for { return(FOR_SYM); }
+if { return(IF_SYM); }
 return { return(RETURN_SYM); }
 sizeof { return(SIZEOF_SYM); }
 static { return(STATIC_SYM); }
@@ -49,7 +48,7 @@ while { return(WHILE_SYM); }
 "!=" { return(NEQ); }
 "&&" { return(AMPAMP); }
 "||" { return(BARBAR); }
-"\.\.\." { return(DOTDOT) }
+"\.\.\." { return(DOTDOT); }
 "\(" { return(LP); }
 "\)" { return(RP); }
 "\[" { return(LB); }
@@ -86,7 +85,7 @@ int checkIdentifier(char *s){
 	A_ID *id;
 	char *t;
 
-	if = current_id;
+	id = current_id;
 
 	while(id){
 		if(strcmp(id -> name, s) == 0) break;
@@ -94,14 +93,14 @@ int checkIdentifier(char *s){
 		id = id -> prev;
 	}
 	if(id==0){
-		yyval = makeString(s);
+		yylval = makeString(s);
 		return(IDENTIFIER);}
 	else if(id -> kind == ID_TYPE){
-		yylval = id->type;
+		yylval = id -> type;
 		return(TYPE_IDENTIFIER);
 	}
 	else{
-		yylval=id->name;
+		yylval=id -> name;
 		return(IDENTIFIER);
 	}
 }
