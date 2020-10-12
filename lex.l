@@ -14,7 +14,7 @@ extern int line_no;
 extern A_ID *current_id;
 
 char *makeString();
-int checkIdentifer();
+int checkIdentifier();
 %}
 
 %%

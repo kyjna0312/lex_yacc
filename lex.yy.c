@@ -539,7 +539,7 @@ extern int line_no;
 extern A_ID *current_id;
 
 char *makeString();
-int checkIdentifer();
+int checkIdentifier();
 #line 544 "lex.yy.c"
 #line 545 "lex.yy.c"
 
