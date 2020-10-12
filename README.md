@@ -16,6 +16,6 @@ gcc -o test y.tab.c lex.yy.c 가 실행되기 때문에 실행파일인 test가 
 성공하는 사례와 실패하는 사례 둘다 보여주기 위해 main함수는 한사람당 두개! (이름 바꿔도 됩니다)
 1) test_success.c랑 test_error.c
 2) yyparse_s.c랑 yyparse_error.c
-3) success.c랑 failed.c
+3) success.c랑 failed.c (용진 찜)
 
 ***main함수는 진짜 막 적은 엄청 짧은 코드라 수정하셔도 됨니다.***
