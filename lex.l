@@ -6,10 +6,14 @@ ws {delim}+
 
 %{
 #include "y.tab.h"
-#include <string.h>
+#include "type.h"
 
-extern int line_no = 1;
 
+extern int yylval;
+extern int line_no;
+extern A_ID *current_id;
+
+char *makeString();
 int checkIdentifier();
 %}
 
@@ -64,26 +68,41 @@ while { return(WHILE_SYM); }
 "\-" { return(MINUS); }
 "\=" { return(ASSIGN); }
 
-{digit}+ {return(INTEGER_CONSTANT); }
-{digit}+\.{digit}+ {return(FLOAT_CONSTANT); }
+{digit}+ { yylval=atoi(yytext); return(INTEGER_CONSTANT); }
+{digit}+\.{digit}+ { yylval=makeString(yytext); return(FLOAT_CONSTANT); }
 {letter}({letter}|{digit})* { return(checkIdentifier(yytext)); }
-\"([^"\n]|\\["\n])*\" {return(STRING_LITERAL); }
-\'([^'\n]|\'\')\' {return(CHARACTER_CONSTANT); }
+\"([^"\n]|\\["\n])*\" { yylval=makeString(yytext); return(STRING_LITERAL); }
+\'([^'\n]|\'\')\' { yylval=*(yytext+1); return(CHARACTER_CONSTANT); }
 "//"[^\n]* { }
 %%
-int checkIdentifier(char *s) {
-	if (strcmp(s, "int") == 0)
-		return TYPE_IDENTIFIER;
-	else if (strcmp(s, "float") == 0)
-		return TYPE_IDENTIFIER;
-	else if (strcmp(s, "char") == 0)
-		return TYPE_IDENTIFIER;
-	else if (strcmp(s, "void") == 0)
-		return TYPE_IDENTIFIER;
-		
-	return IDENTIFIER;
+
+char *makeString(char *s){
+	char *t;
+	t = malloc(strlen(s)+1);
+	strcpy(t, s);
+	return(t);
 }
 
-int yywrap() {
-	return 1;
+int checkIdentifier(char *s){
+	A_ID *id;
+	char *t;
+
+	id = current_id;
+
+	while(id){
+		if(strcmp(id -> name, s) == 0) break;
+
+		id = id -> prev;
+	}
+	if(id==0){
+		yylval = makeString(s);
+		return(IDENTIFIER);}
+	else if(id -> kind == ID_TYPE){
+		yylval = id -> type;
+		return(TYPE_IDENTIFIER);
+	}
+	else{
+		yylval=id -> name;
+		return(IDENTIFIER);
+	}
 }
