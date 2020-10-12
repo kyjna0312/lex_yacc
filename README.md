@@ -2,7 +2,7 @@
 
 일단 실행방법은 이렇숩니다
 makefile을 만들어뒀기때문에 편하게 하시면 됩니다.
-***makefile에서 test 라고 쓴 부분은 실행파일명을 정해주는 부분이기 때문에 바꾸셔도 됨니다."
+***makefile에서 test 라고 쓴 부분은 실행파일명을 정해주는 부분이기 때문에 바꾸셔도 됨니다.***
 
 1. make
 이거 하면 lex lex.l // yacc -d kim.y가 실행되기 때문에 lex.yy.c // y.tab.c // y.tab.h가 생성되고
